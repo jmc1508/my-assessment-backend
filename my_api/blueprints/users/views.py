@@ -45,10 +45,7 @@ def create():
             return make_response(jsonify(responseObject)), 400
 
         else:
-
-            print(new_user.id)
-
-            breakpoint()
+            
             auth_token = new_user.encode_auth_token(new_user.id)
 
             responseObject = {
