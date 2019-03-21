@@ -3,10 +3,10 @@ import config
 from flask import Flask
 from models.base_model import db
 
-web_dir = os.path.join(os.path.dirname(
-    os.path.abspath(__file__)), 'instagram_web')
+api_dir = os.path.join(os.path.dirname(
+    os.path.abspath(__file__)), 'my_api')
 
-app = Flask('NEXTAGRAM', root_path=web_dir)
+app = Flask('my-assessment', root_path=api_dir)
 
 if os.getenv('FLASK_ENV') == 'production':
     app.config.from_object("config.ProductionConfig")
