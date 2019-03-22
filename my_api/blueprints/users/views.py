@@ -61,3 +61,37 @@ def create():
 
             return make_response(jsonify(responseObject)), 201
 
+
+@users_api_blueprint.route('/me',methods=['GET'])
+
+def show():
+    auth_header = request.headers.get('Authorization')
+
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+    else:
+        responseObject = {
+            'status': 'failed',
+            'message': 'No authorization header found'
+        }
+
+        return make_response(jsonify(responseObject)), 401
+
+    user_id = User.decode_auth_token(auth_token)
+
+    user = User.get_or_none(id=user_id)
+
+    if user:
+        responseObject={
+            'username':user.username,
+            'email':user.email
+        }
+   
+        return jsonify(responseObject)
+    else:
+        responseObject = {
+            'status': 'failed',
+            'message': 'Authentication failed'
+        }
+
+        return make_response(jsonify(responseObject)), 401

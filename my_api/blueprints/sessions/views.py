@@ -12,6 +12,7 @@ def sign_in():
     post_data = request.get_json()
     # check if user already exists
     user = User.get_or_none(email=post_data.get('email'))
+
     if user and check_password_hash(user.password, post_data.get('password')):
         auth_token = user.encode_auth_token(user.id)
 
