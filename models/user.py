@@ -15,6 +15,24 @@ class User(BaseModel):
     password=pw.CharField()
     profile_image = pw.CharField(null=True)
 
+# Validation: user data
+
+    def validate(self):
+        duplicate_username = User.get_or_none(User.username == self.username)
+
+        if duplicate_username and duplicate_username.id != self.id:
+            self.errors.append('username not unique')
+
+        duplicate_email = User.get_or_none(User.email == self.email)
+
+        if duplicate_email and duplicate_email.id != self.id:
+            self.errors.append('email not unique')
+
+        if self.username=='':
+            self.errors.append('You cannot enter a blank username')
+        
+        
+
 
 # Profile Image
     @hybrid_property
@@ -23,6 +41,13 @@ class User(BaseModel):
             return app.config['S3_LOCATION'] + self.profile_image
         else:
             return app.config['S3_LOCATION'] + "person-placeholder-image-3.jpg"
+
+# RESTful: Update user data
+    @hybrid_property
+    def update_profile(self):
+
+
+        return "pass"
 
 # Login through apis (creating JWT) 
 
