@@ -150,3 +150,46 @@ def edit_profile():
 
         return make_response(jsonify(responseObject)), 201
 
+# RESTful - Delete profile
+@users_api_blueprint.route('/me/delete',methods=['POST'])
+
+def delete_profile():
+
+  # Get JWT to verify which user has signed in
+    auth_header = request.headers.get('Authorization')
+
+    if auth_header:
+        auth_token = auth_header.split(" ")[1]
+
+    else:
+        responseObject = {
+            'status': 'failed',
+            'message': 'No authorization header found'
+        }
+
+        return make_response(jsonify(responseObject)), 401
+    
+    # Locate the user ID based on the JWT token
+    user_id = User.decode_auth_token(auth_token)
+    # Get the user object
+    user = User.get_or_none(id=user_id)
+    # Delete the user object
+    username=user.username
+    if user:
+        delete_user=User.delete().where(User.id==user_id)
+        delete_user.execute()
+
+        responseObject = {
+            'status': 'Success',
+            'message': 'Your account has successfully been deleted'
+        }
+        return make_response(jsonify(responseObject)), 201
+    
+    else:
+        responseObject = {
+            'status': 'Failed',
+            'message': 'Failed to delete your account. Please try again'
+        }
+
+        return make_response(jsonify(responseObject)), 401
+
