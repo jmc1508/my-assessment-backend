@@ -25,3 +25,8 @@ def _db_close(exc):
         print(db)
         print(db.close())
     return exc
+
+@app.route("/", methods=["GET"])
+def index():
+
+    return "HOMEPAGE - Backend"
