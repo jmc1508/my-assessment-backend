@@ -20,8 +20,7 @@ def sign_in():
             'status': 'success',
             'message': 'Successfully signed in.',
             'auth_token': auth_token.decode(),
-            'user': {"id": int(user.id), "username": user.username,
-              "profileImage": user.profile_image_url}
+            'user': {"id": int(user.id), "username": user.username,"email":user.email}
         }
 
         return make_response(jsonify(responseObject)), 201

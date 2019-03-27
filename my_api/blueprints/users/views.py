@@ -10,11 +10,12 @@ users_api_blueprint = Blueprint('users_api',
 # RESTful - Read data
 @users_api_blueprint.route('/', methods=['GET'])
 def index():
-    # users = User.select()
+    
+    users = User.select()
     # users = [(user.__dict__['__data__'] for user in users] # returns a full user object incl password!! (think of how you can exclude sensetive data from the returned JSON if you want to use this)
-    # users = [{"id": int(user.id), "username": user.username,
-    #           "profileImage": user.profile_image_url} for user in users]
-    return "HOMEPAGE"
+    users = [{"id": int(user.id), "username": user.username,
+              "profileImage": user.profile_image_url} for user in users]
+    return jsonify(users)
 
 # RESTful - Create
 @users_api_blueprint.route('/',methods=['POST'])

@@ -21,15 +21,19 @@ class User(BaseModel):
         duplicate_username = User.get_or_none(User.username == self.username)
 
         if duplicate_username and duplicate_username.id != self.id:
-            self.errors.append('username not unique')
+            self.errors.append('Your username is not unique')
 
         duplicate_email = User.get_or_none(User.email == self.email)
 
         if duplicate_email and duplicate_email.id != self.id:
-            self.errors.append('email not unique')
+            self.errors.append('Your e-mail is not unique')
 
         if self.username=='':
             self.errors.append('You cannot enter a blank username')
+
+        if self.email=='':
+            self.errors.append('You cannot enter a blank username')
+
         
         
 
